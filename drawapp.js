@@ -1,20 +1,20 @@
 var cElem, cCont;
-var drawing = false;  // ƒtƒ‰ƒO—
+var drawing = false;  // ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½
 
-window.addEventListener('load', function(){  // ƒy[ƒW“Ç‚İ‚İ‚ÉÀs
+window.addEventListener('load', function(){  // ï¿½yï¿½[ï¿½Wï¿½Ç‚İï¿½ï¿½İï¿½ï¿½Éï¿½ï¿½s
     cElem = document.getElementById('c');
     cCont = cElem.getContext('2d');
 
-    // canvas‚Ìİ’è
-    cCont.lineJoin    = 'round';  // Šp‚ğŠÛ‚­
-    cCont.lineCap     = 'round';  // ü‚ÌI’[‚ğŠÛ‚­
-    cCont.lineWidth   = 3;        // ü‚Ì•
-    cCont.strokeStyle = '#0000FF';   // ü‚ÌF
+    // canvasï¿½Ìİ’ï¿½
+    cCont.lineJoin    = 'round';  // ï¿½pï¿½ï¿½ï¿½Û‚ï¿½
+    cCont.lineCap     = 'round';  // ï¿½ï¿½ï¿½ÌIï¿½[ï¿½ï¿½ï¿½Û‚ï¿½
+    cCont.lineWidth   = 3;        // ï¿½ï¿½ï¿½Ì•ï¿½
+    cCont.strokeStyle = '#0000FF';   // ï¿½ï¿½ï¿½ÌF
 
     // event
-    cElem.addEventListener('touchstart', start, false);  // canvasã‚ÌmousedownƒCƒxƒ“ƒg‚Åstart()‚ğŒÄ‚Ô
-    cElem.addEventListener('touchmove', move, false);   // canvasã‚ÌmousemoveƒCƒxƒ“ƒg‚Åmove()‚ğŒÄ‚Ô
-    window.addEventListener('touchend', stop, false);   // windowã‚ÌmouseupƒCƒxƒ“ƒg‚Åstop()‚ğŒÄ‚Ô
+    cElem.addEventListener('touchstart', start, false);  // canvasï¿½ï¿½ï¿½ï¿½mousedownï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½start()ï¿½ï¿½ï¿½Ä‚ï¿½
+    cElem.addEventListener('touchmove', move, false);   // canvasï¿½ï¿½ï¿½ï¿½mousemoveï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½move()ï¿½ï¿½ï¿½Ä‚ï¿½
+    window.addEventListener('touchend', stop, false);   // windowï¿½ï¿½ï¿½ï¿½mouseupï¿½Cï¿½xï¿½ï¿½ï¿½gï¿½ï¿½stop()ï¿½ï¿½ï¿½Ä‚ï¿½
 
 	// stop to scroll
 	document.body.addEventListener('touchmove', function(event){
@@ -23,45 +23,45 @@ window.addEventListener('load', function(){  // ƒy[ƒW“Ç‚İ‚İ‚ÉÀs
 }, false);
 
 function start(event){
-    console.log("start");
-    cCont.beginPath();  // Œ»İ‚ÌƒpƒX‚ğƒŠƒZƒbƒg
-    cCont.moveTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ‰ŠúÀ•W‚ğw’è
-    drawing = true;  // ƒhƒ‰ƒbƒO’†ƒtƒ‰ƒO—§
+    //console.log("start");
+    cCont.beginPath();  // ï¿½ï¿½ï¿½İ‚Ìƒpï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½g
+    cCont.moveTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½ï¿½ï¿½wï¿½ï¿½
+    drawing = true;  // ï¿½hï¿½ï¿½ï¿½bï¿½Oï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½
 }
 
 function move(event){
     if (!drawing) return;
-    console.log("move");
-    cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ’¼‘O‚ÌÀ•W‚ÆŒ»İ‚ÌÀ•W‚ğ’¼ü‚ÅŒq‚®
-    cCont.stroke();  // canvas‚É•`‰æ
-    sampling();
+    //console.log("move");
+    cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ï¿½ï¿½ï¿½Oï¿½Ìï¿½ï¿½Wï¿½ÆŒï¿½ï¿½İ‚Ìï¿½ï¿½Wï¿½ğ’¼ï¿½ï¿½ÅŒqï¿½ï¿½
+    cCont.stroke();  // canvasï¿½É•`ï¿½ï¿½
+    //sampling();
 }
 
 function stop(event){
     if (!drawing) return;
-    console.log("stop");
+    //console.log("stop");
     
-    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // “_‚ª•`‚¯‚é‚æ‚¤‚É
+    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ï¿½_ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½ï¿½
     //cCont.stroke();
     
-    cCont.closePath();  // ƒTƒuƒpƒX‚ğ•Â‚¶‚é
-    drawing = false;   // ƒtƒ‰ƒO—
+    cCont.closePath();  // ï¿½Tï¿½uï¿½pï¿½Xï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½
+    drawing = false;   // ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½
 }
 
 function clearCanvas(){
-    cCont.clearRect(0, 0, c.width, c.height);  // ƒLƒƒƒ“ƒoƒX‚ğ‰Šú‰»
+    cCont.clearRect(0, 0, c.width, c.height);  // ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
-function sampling(){  // ƒTƒ“ƒvƒŠƒ“ƒO
+function sampling(){  // ï¿½Tï¿½ï¿½ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½O
 	d = new Date();
 	m = d.getMinutes();
 	s = d.getSeconds();
 	ms = d.getMilliseconds();
-	document.getElementById("t").value = (m + ":" + s + ":" + ms + ", ");  // •ª_•b_ƒ~ƒŠ•b‚ğ•\¦
-	console.log(m + ":" + s + ":" + ms + ", ");  // •ª_•b_ƒ~ƒŠ•b‚ğ•\¦
+	document.getElementById("t").value = (m + ":" + s + ":" + ms + ", ");  // ï¿½ï¿½_ï¿½b_ï¿½~ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½\ï¿½ï¿½
+	console.log(m + ":" + s + ":" + ms + ", ");  // ï¿½ï¿½_ï¿½b_ï¿½~ï¿½ï¿½ï¿½bï¿½ï¿½ï¿½\ï¿½ï¿½
 }
 
-function changePensize(){  // ü••ÏX
+function changePensize(){  // ï¿½ï¿½ï¿½ï¿½ï¿½ÏX
 	rElem = document.getElementsByName('pen');
 	if(rElem[0].checked){
 		cCont.lineWidth = 1;
