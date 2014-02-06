@@ -1,22 +1,23 @@
 var cElem, cCont;
-var drawing = false;  // �t���O��
+var drawing = false;  // flag = false
 
-window.addEventListener('load', function(){  // �y�[�W�ǂݍ��ݎ��Ɏ��s
+//when pege loaded..
+window.addEventListener('load', function(){
     cElem = document.getElementById('c');
     cCont = cElem.getContext('2d');
 
-    // canvas�̐ݒ�
-    cCont.lineJoin    = 'round';  // �p���ۂ�
-    cCont.lineCap     = 'round';  // ���̏I�[���ۂ�
-    cCont.lineWidth   = 3;        // ���̕�
-    cCont.strokeStyle = '#0000FF';   // ���̐F
+    // canvas setting
+    cCont.lineJoin    = 'round';  // shape_angle
+    cCont.lineCap     = 'round';  // shape_line end
+    cCont.lineWidth   = 3;        // line width
+    cCont.strokeStyle = '#0000FF';   // line color
 
     // event
-    cElem.addEventListener('touchstart', start, false);  // canvas����mousedown�C�x���g��start()���Ă�
-    cElem.addEventListener('touchmove', move, false);   // canvas����mousemove�C�x���g��move()���Ă�
-    window.addEventListener('touchend', stop, false);   // window����mouseup�C�x���g��stop()���Ă�
+    cElem.addEventListener('touchstart', start, false);  // call start() when touchstart event on canvas
+    cElem.addEventListener('touchmove', move, false);   // call move() when touchstart event on canvas
+    window.addEventListener('touchend', stop, false);   // call stop() when touchstart event on window
 
-	// stop to scroll
+	// stop to page scroll
 	document.body.addEventListener('touchmove', function(event){
 		event.preventDefault();
 	}, false);
@@ -24,16 +25,26 @@ window.addEventListener('load', function(){  // �y�[�W�ǂݍ��ݎ��
 
 function start(event){
     //console.log("start");
-    cCont.beginPath();  // ���݂̃p�X�����Z�b�g
-    cCont.moveTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // �������W���w��
-    drawing = true;  // �h���b�O���t���O��
+    cCont.beginPath();  // reset current Path
+    cCont.moveTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // setting initial coordinate
+    drawing = true;  // flag = true
+}
+
+function sleep(T){
+   var d1 = new Date().getTime(); 
+   var d2 = new Date().getTime(); 
+   while( d2 < d1 + T ){			//wait for T[msec]
+       d2 = new Date().getTime();
+   }
+   return;
 }
 
 function move(event){
     if (!drawing) return;
     //console.log("move");
-    cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // ���O�̍��W�ƌ��݂̍��W�𒼐��Ōq��
-    cCont.stroke();  // canvas�ɕ`��
+	sleep(50);	// T[msec] lag
+    cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // connect last coordinate and current coordinate with a line
+    cCont.stroke();  // draw line on canvas
     //sampling();
 }
 
@@ -41,27 +52,27 @@ function stop(event){
     if (!drawing) return;
     //console.log("stop");
     
-    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // �_���`�����悤��
+    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // �_���`����悤��
     //cCont.stroke();
     
-    cCont.closePath();  // �T�u�p�X������
-    drawing = false;   // �t���O��
+    cCont.closePath();  // close sub path
+    drawing = false;   // flag = false
 }
 
 function clearCanvas(){
-    cCont.clearRect(0, 0, c.width, c.height);  // �L�����o�X��������
+    cCont.clearRect(0, 0, c.width, c.height);  // initialize canvas
 }
 
-function sampling(){  // �T���v�����O
+function sampling(){  // sampling
 	d = new Date();
 	m = d.getMinutes();
 	s = d.getSeconds();
 	ms = d.getMilliseconds();
-	document.getElementById("t").value = (m + ":" + s + ":" + ms + ", ");  // ��_�b_�~���b���\��
-	console.log(m + ":" + s + ":" + ms + ", ");  // ��_�b_�~���b���\��
+	document.getElementById("t").value = (m + ":" + s + ":" + ms + ", ");
+	console.log(m + ":" + s + ":" + ms + ", ");  // log_minute, sec, msec
 }
 
-function changePensize(){  // �����ύX
+function changePensize(){  // change line width
 	rElem = document.getElementsByName('pen');
 	if(rElem[0].checked){
 		cCont.lineWidth = 1;
