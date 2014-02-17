@@ -1,11 +1,14 @@
-var cElem, cCont;
+var cElem, cCont, late, x_max, y_max;
 var drawing = false;  // flag = false
 
 //when pege loaded..
 window.addEventListener('load', function(){
     cElem = document.getElementById('c');
     cCont = cElem.getContext('2d');
-
+    late = 0;	// but  default iPad latency is 30ms
+	x_max = 10;
+	y_max = -8;
+	
     // canvas setting
     cCont.lineJoin    = 'round';  // shape_angle
     cCont.lineCap     = 'round';  // shape_line end
@@ -26,10 +29,11 @@ window.addEventListener('load', function(){
 function start(event){
     //console.log("start");
     cCont.beginPath();  // reset current Path
-    cCont.moveTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // setting initial coordinate
+    cCont.moveTo(event.touches[0].pageX - c.offsetLeft - x_max, event.touches[0].pageY - c.offsetTop - y_max);  // setting initial coordinate
     drawing = true;  // flag = true
 }
 
+/*
 function sleep(T){
    var d1 = new Date().getTime(); 
    var d2 = new Date().getTime(); 
@@ -38,24 +42,25 @@ function sleep(T){
    }
    return;
 }
+*/
 
 function move(event){
     if (!drawing) return;
     //console.log("move");
-	sleep(50);	// T[msec] lag
-    cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // connect last coordinate and current coordinate with a line
-    cCont.stroke();  // draw line on canvas
+	//sleep(50);	// T[msec] lag
+	setTimeout(function(){
+    	cCont.lineTo(event.touches[0].pageX - c.offsetLeft - x_max, event.touches[0].pageY - c.offsetTop - y_max);  // connect last coordinate and current coordinate with a line
+		cCont.stroke();  // draw line on canvas
+    }, late);
     //sampling();
 }
 
 function stop(event){
     if (!drawing) return;
     //console.log("stop");
-    
-    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft, event.touches[0].pageY - c.offsetTop);  // “_‚ª•`‚¯‚é‚æ‚¤‚É
-    //cCont.stroke();
-    
-    cCont.closePath();  // close sub path
+    //cCont.lineTo(event.touches[0].pageX - c.offsetLeft - x_max, event.touches[0].pageY - c.offsetTop - y_max);	//short line
+    	//cCont.stroke();
+    //cCont.closePath();  // close sub path
     drawing = false;   // flag = false
 }
 
@@ -73,15 +78,39 @@ function sampling(){  // sampling
 }
 
 function changePensize(){  // change line width
-	rElem = document.getElementsByName('pen');
-	if(rElem[0].checked){
+	pElem = document.getElementsByName('pen');
+	if(pElem[0].checked){
 		cCont.lineWidth = 1;
 	}
-	else if(rElem[1].checked){
+	else if(pElem[1].checked){
 		cCont.lineWidth = 3;
 	}
-	else if(rElem[2].checked){
+	else if(pElem[2].checked){
 		cCont.lineWidth = 5;
 	}
+}
+
+function changeLatency(){  // change stroke latency
+	lElem = document.getElementsByName('latency');
+	if(lElem[0].checked){
+		late = 0;
+	}
+	else if(lElem[1].checked){
+		late = 30;
+	}
+	else if(lElem[2].checked){
+		late = 40;
+	}
+	else if(lElem[3].checked){
+		late = 50;
+	}
+	else if(lElem[4].checked){
+		late = 1000;
+	}
+}
+
+function setCalibration(){		//  calibration
+	x_max = -document.getElementById("calib_x").value;
+	y_max = document.getElementById("calib_y").value;
 }
 
